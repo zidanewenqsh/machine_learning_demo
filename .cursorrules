@@ -1,0 +1,239 @@
+# .cursorrules 文件内容
+name: 机器学习文件创建器
+description: 根据提供的机器学习主题，自动生成Python文件，文件名为英文，代码中注释为中文。
+
+rules:
+  - name: 文件整体注释规范
+    description: 每个Python文件开头必须包含完整的文件说明
+    rules:
+      - 文件开头必须包含以下注释内容：
+        - 文件功能概述
+        - 主要实现的类或函数
+        - 依赖的主要库
+        - 作者信息
+        - 创建日期
+        - 最后修改日期
+        - 示例用法
+      - 注释格式示例：
+        """
+        文件名：xxx.py
+        
+        功能：实现xxx算法，包括...
+        
+        主要函数：
+        - function1: 实现...
+        - function2: 实现...
+        
+        主要类：
+        - Class1: 实现...
+        
+        依赖库：
+        - numpy
+        - pandas
+        - sklearn
+        
+        其他说明：
+        - 实现了xxx功能
+        - 支持xxx数据格式
+        
+        作者：xxx
+        创建日期：yyyy-mm-dd
+        修改日期：yyyy-mm-dd
+        """
+
+  - name: 训练过程进度条规范
+    description: 在模型训练过程中使用tqdm库显示进度条
+    rules:
+      - 在模型训练函数中使用tqdm库来显示进度条
+      - 示例用法：
+        """
+        from tqdm import tqdm
+        for i in tqdm(range(epochs), desc="Training Progress"):
+            model.fit(X_train, y_train)
+        """
+
+  - name: 严格代码修改规范
+    description: 仅在用户对某段代码提出特殊要求时执行的规范
+    rules:
+      - 仅修改用户在聊天窗口提供的代码段
+      - 不对代码段之外的部分进行修改，除非用户明确指示
+
+  - name: 合规化检查规范
+    description: 进行全文合规化检查时的严格要求
+    rules:
+      - 必须逐行检查所有代码，不得遗漏
+      - 检查内容包括但不限于：
+        - 所有函数的文档字符串是否完整（包含功能描述、参数说明、返回值说明）
+        - 所有注释是否使用中文
+        - 所有可执行代码是否使用英文
+        - 所有可视化结果是否正确保存
+        - 所有print语句是否符合语言规范
+      - 检查方法：
+        - 从文件开头逐行向下检查
+        - 对每个函数的文档字符串进行完整性验证
+        - 确保没有遗漏任何代码块或注释
+      - 检查结果：
+        - 需要列出所有发现的不合规内容
+        - 提供具体的修改建议
+        - 确保修改后的代码完全符合规范
+
+  - name: 合规化和规范化处理
+    description: 当用户提到对某个或某几个Python文件进行"合规化"或"规范化"处理时，使用.cursorrules中的要求仔细检查并修改这个Python文件
+    rules:
+      - 仔细检查并确保文件符合所有.cursorrules中的规范
+      - 包括但不限于注释规范、代码结构、依赖管理、文档字符串和可视化规范
+
+  - name: 代码语言规范
+    description: Python代码的语言使用规范
+    rules:
+      - 文件名必须使用英文
+      - 代码注释必须使用中文，包括：
+        - 文件头部说明注释
+        - 函数文档字符串（docstring）
+        - 代码内的行注释
+      - 函数文档必须包含：
+        - 功能描述
+        - 参数说明（如果有）
+        - 返回值说明（如果有）
+        - 异常说明（如果有）
+      - 所有可执行代码必须使用英文，包括但不限于：
+        - print语句
+        - 字符串内容
+        - 错误信息（包括所有Exception和Error信息）
+        - 变量名和函数名
+        - 类名
+        - 日志信息
+        - 文件路径
+        - 配置信息
+        - 命令行参数
+        - 正则表达式
+      - 代码输出的所有文本内容必须使用英文
+      - 数据库操作相关的SQL语句必须使用英文
+      - 第三方API调用的参数必须使用英文
+
+  - name: 可视化保存规则
+    description: 所有机器学习算法的可视化结果都需要保存到指定目录
+    rules:
+      - 每个算法创建独立的可视化目录：visualizations/算法名
+      - 所有plt.show()调用前需要先保存图片
+      - 使用plt.close()释放内存
+      - 图片文件名要能清晰表示内容
+      - 支持多种可视化类型（训练过程、预测结果、评估指标等）
+      - 保存路径要统一管理
+
+  - name: 代码结构规范
+    description: Python文件的基本结构要求
+    rules:
+      - 文件开头必须有中文注释说明文件功能
+      - 必须包含必要的库导入
+      - 函数定义必须包含完整的中文文档字符串
+      - 主函数必须使用 if __name__ == "__main__" 结构
+      - 代码逻辑部分使用英文编写
+      - 注释需要清晰说明代码功能和步骤
+
+  - name: 为多个主题创建Python文件
+    description: 根据给出的主题列表，为每个主题生成一个Python文件。
+    pattern: "为{topics}创建文件"
+    action: |
+      # 将输入的主题列表拆分成单个主题
+      topics = {topics}.split(',')
+
+      # 遍历每个主题并创建Python文件
+      for topic in topics:
+          # 将主题转换为有效的文件名（英文）
+          filename = topic.strip().lower().replace(' ', '_') + '.py'
+          
+          # 定义Python文件的内容
+          file_content = f'''
+          # 导入必要的库
+          import numpy as np
+          import pandas as pd
+          import matplotlib.pyplot as plt
+          import os
+          from sklearn.model_selection import train_test_split
+          from sklearn.metrics import accuracy_score, mean_squared_error
+          
+          # 创建保存可视化结果的目录
+          def ensure_dir(directory):
+              """确保目录存在，如果不存在则创建"""
+              if not os.path.exists(directory):
+                  os.makedirs(directory)
+
+          # sklearn数据集导入
+          from sklearn.datasets import (load_iris, load_digits, load_boston, 
+                                      load_breast_cancer, load_wine, 
+                                      load_diabetes, make_classification,
+                                      make_regression)
+
+          # 加载数据
+          def load_dataset(dataset_name='default'):
+              """
+              从sklearn加载示例数据集
+              可用数据集：
+              - 分类问题：
+                  'iris': 鸢尾花数据集 (3类)
+                  'digits': 手写数字数据集 (10类)
+                  'breast_cancer': 乳腺癌数据集 (2类)
+                  'wine': 红酒数据集 (3类)
+              - 回归问题：
+                  'boston': 波士顿房价数据集
+                  'diabetes': 糖尿病数据集
+              """
+              if dataset_name == 'iris':
+                  data = load_iris()
+              elif dataset_name == 'digits':
+                  data = load_digits()
+              elif dataset_name == 'breast_cancer':
+                  data = load_breast_cancer()
+              elif dataset_name == 'wine':
+                  data = load_wine()
+              elif dataset_name == 'boston':
+                  data = load_boston()
+              elif dataset_name == 'diabetes':
+                  data = load_diabetes()
+              else:
+                  # 生成模拟数据
+                  X, y = make_classification(n_samples=1000, n_features=20,
+                                          n_informative=15, n_redundant=5,
+                                          random_state=42)
+                  return X, y
+              
+              return data.data, data.target
+
+          # 设置可视化保存路径
+          SAVE_PATH = 'visualizations/{filename.replace(".py", "")}'
+          ensure_dir(SAVE_PATH)
+
+          # 加载和预处理数据
+          X, y = load_dataset()  # 可以指定数据集名称
+          X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+          # 训练模型
+          # model = SomeModel()
+          # model.fit(X_train, y_train)
+
+          # 进行预测
+          # y_pred = model.predict(X_test)
+
+          # 评估模型
+          # accuracy = accuracy_score(y_test, y_pred)
+          # mse = mean_squared_error(y_test, y_pred)
+          # print(f'Accuracy: {accuracy}')
+          # print(f'MSE: {mse}')
+
+          # 可视化结果（示例）
+          def plot_results(save_path=SAVE_PATH):
+              """绘制并保存可视化结果"""
+              plt.figure(figsize=(10, 6))
+              # 绘图代码
+              plt.savefig(os.path.join(save_path, 'result.png'))
+              plt.close()
+          '''
+
+          # 将内容写入Python文件
+          with open(filename, 'w') as file:
+              file.write(file_content.strip())
+
+          print(f'已创建文件：{filename}')
+    examples:
+      - "为线性回归, K均值聚类, 决策树分类器创建文件"
